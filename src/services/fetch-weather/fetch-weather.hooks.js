@@ -6,7 +6,7 @@ module.exports = {
   before: {
     all: [],
     find: [],
-    get: [fetchWeather()],
+    get: [],
     create: [],
     update: [],
     patch: [],
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   after: {
-    all: [],
+    all: [fetchWeather()],
     find: [],
     get: [],
     create: [],
