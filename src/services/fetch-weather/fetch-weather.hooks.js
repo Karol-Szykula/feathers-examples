@@ -1,10 +1,12 @@
 
 
+const fetchWeather = require('../../hooks/fetch-weather');
+
 module.exports = {
   before: {
     all: [],
     find: [],
-    get: [],
+    get: [fetchWeather()],
     create: [],
     update: [],
     patch: [],
