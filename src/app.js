@@ -9,8 +9,6 @@ const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
 
-
-
 const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
@@ -32,20 +30,17 @@ app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
 app.use('/', express.static(app.get('public')));
 
-app.use('/api', (req, res, next) => {
-
-    fetch('https://api.openweathermap.org/data/2.5/weather?q=Lublin,pl&APPID=ec70d779550287b5004bc56e1f4500bc')
-        .then(data => data.json())
-        .then(json => {
-            console.log(json)
-        }).catch(error => console.log(errror))
-
-    next()
-})
-
 // Set up Plugins and providers
 app.configure(express.rest());
 
+app.use('/api', async (req, res, next) => {
+
+    await fetch('http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=ec70d779550287b5004bc56e1f4500bc')
+        .then(response => { return response.json() })
+        .then((json) => { return res.send(json) })
+        .catch(error => { console.log(error) })
+
+})
 
 // Configure other middleware (see `middleware/index.js`)
 app.configure(middleware);
@@ -53,6 +48,14 @@ app.configure(middleware);
 app.configure(services);
 // Set up event channels (see channels.js)
 app.configure(channels);
+
+
+// app.use('/api', async (req, res, next) => {
+
+
+
+
+// })
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
