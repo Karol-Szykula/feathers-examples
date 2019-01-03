@@ -10,11 +10,26 @@ class App {
         this.container.innerHTML = ''
 
         this.container.style.display = 'flex'
+        this.container.style.flexDirection = 'column'
         this.container.style.justifyContent = 'center'
+        this.container.style.alignItems = 'center'
 
+        this.container.style.backgroundColor = 'aqua'
+
+        this.container.appendChild(this.renderInput())
         this.container.appendChild(this.renderGetWeatherButton())
         this.container.appendChild(this.renderWeather())
 
+    }
+
+    renderInput() {
+        const divInput = document.createElement('div')
+        divInput.style.backgroundColor = 'green'
+        const input = document.createElement('input')
+
+        divInput.appendChild(input)
+
+        return divInput
     }
 
     renderGetWeatherButton() {
@@ -25,10 +40,10 @@ class App {
             this.fetchData()
         });
 
-        buttonGetWeatherApi.style.color = 'red'
 
         const divButton = document.createElement('div')
         divButton.innerHTML = ''
+        divButton.style.backgroundColor = 'red'
 
         divButton.appendChild(buttonGetWeatherApi)
 
@@ -38,6 +53,8 @@ class App {
     renderWeather() {
         this.divWeather = document.createElement('div')
         this.divWeather.innerHTML = 'loading'
+
+        this.divWeather.style.backgroundColor = 'orange'
 
         return this.divWeather
     }
