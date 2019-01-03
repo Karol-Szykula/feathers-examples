@@ -2,9 +2,9 @@
 class App {
     constructor(containerName) {
         this.container = document.querySelector(`.${containerName}`) || document.body
+        this.city = 'Lublin'
+        this.country = 'pl'
     }
-
-
 
     renderUI() {
         this.container.innerHTML = ''
@@ -25,8 +25,11 @@ class App {
     renderInput() {
         const divInput = document.createElement('div')
         divInput.style.backgroundColor = 'green'
-        const input = document.createElement('input')
 
+        const input = document.createElement('input')
+        input.addEventListener('change', () => {
+            this.city = input.value
+        })
         divInput.appendChild(input)
 
         return divInput
@@ -63,15 +66,19 @@ class App {
         this.renderUI()
     }
 
-    fetchData(url) {
+    fetchData(param1, param2) {
 
-        url = url || `http://localhost:3030//api`
+        param1 = this.city
+        param2 = this.country
+        let url = `http://localhost:3030//api?city=${param1}&country=${param2}`
 
         fetch(url)
             .then(response => { return response.json() })
             .then((json) => {
 
                 let jsonHtml = JSON.stringify(json, null, 2)
+                console.log(json)
+
 
                 this.divWeather.innerHTML = ''
 
