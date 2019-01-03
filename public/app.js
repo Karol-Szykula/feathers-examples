@@ -4,10 +4,20 @@ class App {
         this.container = document.querySelector(`.${containerName}`) || document.body
     }
 
+    render() {
+        this.renderUI()
+    }
+
     renderUI() {
         // const container = document.querySelector('.container')
         this.container.innerHTML = ''
 
+        
+        this.container.appendChild(this.renderGetWeatherButton())
+
+    }
+
+    renderGetWeatherButton() {
         const buttonGetWeatherApi = document.createElement("button");
         buttonGetWeatherApi.innerHTML = "Get weather";
 
@@ -19,13 +29,7 @@ class App {
         divButton.innerHTML = ''
         divButton.appendChild(buttonGetWeatherApi)
 
-        this.container.appendChild(divButton)
-
-        this.container.appendChild(buttonGetWeatherApi)
-    }
-
-    render() {
-        this.renderUI()
+        return divButton
     }
 
     renderWeather() {
