@@ -42,6 +42,10 @@ app.use('/api', async (req, res, next) => {
 
 })
 
+// Use EJS as the view engine (using the `views` folder by default)
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
 // Configure other middleware (see `middleware/index.js`)
 app.configure(middleware);
 // Set up our services (see `services/index.js`)

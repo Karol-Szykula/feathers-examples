@@ -6,5 +6,15 @@
     "default": 10,
     "max": 50
   },
-  "nedb": "../data"
+  "nedb": "../data",
+  "cookie": {
+    "enabled": true,
+    "name": "feathers-jwt"
+  },
+  "local": {
+    "entity": "user",
+    "usernameField": "email",
+    "passwordField": "password",
+    "successRedirect": "/chat"
+  }
 }
