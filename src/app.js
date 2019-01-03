@@ -35,10 +35,7 @@ app.configure(express.rest());
 
 app.use('/api', async (req, res, next) => {
 
-    console.log(req.query)
-    // console.log(req.params.country)
-
-    await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${req.query['city']},${req.query['coutry']}&APPID=ec70d779550287b5004bc56e1f4500bc`)
+    await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${req.query['city']},${req.query['country']}&APPID=ec70d779550287b5004bc56e1f4500bc&units=metric`)
         .then(response => { return response.json() })
         .then((json) => { return res.send(json) })
         .catch(error => { console.log(error) })

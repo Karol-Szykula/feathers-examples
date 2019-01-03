@@ -16,13 +16,15 @@ class App {
 
         this.container.style.backgroundColor = 'aqua'
 
-        this.container.appendChild(this.renderInput())
+
+        this.container.appendChild(this.renderInputCountry())
+        this.container.appendChild(this.renderInputCity())
         this.container.appendChild(this.renderGetWeatherButton())
         this.container.appendChild(this.renderWeather())
 
     }
 
-    renderInput() {
+    renderInputCity() {
         const divInput = document.createElement('div')
         divInput.style.backgroundColor = 'green'
 
@@ -33,6 +35,18 @@ class App {
         divInput.appendChild(input)
 
         return divInput
+    }
+
+    renderInputCountry() {
+        const divInputCountry = document.createElement('div')
+
+        const input = document.createElement('input')
+        input.addEventListener('change', () => {
+            this.country = input.value
+        })
+        divInputCountry.appendChild(input)
+
+        return divInputCountry
     }
 
     renderGetWeatherButton() {
@@ -75,14 +89,22 @@ class App {
         fetch(url)
             .then(response => { return response.json() })
             .then((json) => {
+                this.divWeather.innerHTML = ''
 
                 let jsonHtml = JSON.stringify(json, null, 2)
                 console.log(json)
+                console.log(json['name'])
+                console.log(json['main']['temp'])
+                // console.log(json['main'])
+
+                const divTemp = document.createElement('div')
+                divTemp.innerHTML = `${this.city}: ${json['main']['temp']} C`
+
+                this.divWeather.appendChild(divTemp)
 
 
-                this.divWeather.innerHTML = ''
 
-                this.divWeather.innerHTML = jsonHtml
+                // this.divWeather.innerHTML = jsonHtml
             })
             .catch(error => { console.log(error) })
     }
