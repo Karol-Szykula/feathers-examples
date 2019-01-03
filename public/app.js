@@ -9,10 +9,11 @@ class App {
     }
 
     renderUI() {
-        // const container = document.querySelector('.container')
         this.container.innerHTML = ''
 
-        
+        this.container.style.display = 'flex'
+        this.container.style.justifyContent = 'center'
+
         this.container.appendChild(this.renderGetWeatherButton())
 
     }
@@ -25,8 +26,11 @@ class App {
             this.renderWeather()
         });
 
+        buttonGetWeatherApi.style.color = 'red'
+
         const divButton = document.createElement('div')
         divButton.innerHTML = ''
+
         divButton.appendChild(buttonGetWeatherApi)
 
         return divButton
@@ -34,7 +38,7 @@ class App {
 
     renderWeather() {
 
-        return fetch(`http://localhost:3030//api`)
+        fetch(`http://localhost:3030//api`)
             .then(response => { return response.json() })
             .then((json) => {
 
