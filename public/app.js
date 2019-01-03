@@ -4,9 +4,7 @@ class App {
         this.container = document.querySelector(`.${containerName}`) || document.body
     }
 
-    render() {
-        this.renderUI()
-    }
+
 
     renderUI() {
         this.container.innerHTML = ''
@@ -15,6 +13,7 @@ class App {
         this.container.style.justifyContent = 'center'
 
         this.container.appendChild(this.renderGetWeatherButton())
+        this.container.appendChild(this.renderWeather())
 
     }
 
@@ -23,7 +22,7 @@ class App {
         buttonGetWeatherApi.innerHTML = "Get weather";
 
         buttonGetWeatherApi.addEventListener("click", () => {
-            this.renderWeather()
+            this.fetchData()
         });
 
         buttonGetWeatherApi.style.color = 'red'
@@ -37,18 +36,29 @@ class App {
     }
 
     renderWeather() {
+        this.divWeather = document.createElement('div')
+        this.divWeather.innerHTML = 'loading'
 
-        fetch(`http://localhost:3030//api`)
+        return this.divWeather
+    }
+
+    render() {
+        this.renderUI()
+    }
+
+    fetchData(url) {
+
+        url = url || `http://localhost:3030//api`
+
+        fetch(url)
             .then(response => { return response.json() })
             .then((json) => {
 
                 let jsonHtml = JSON.stringify(json, null, 2)
 
-                const divWeather = document.createElement('div')
-                divWeather.innerHTML = ''
+                this.divWeather.innerHTML = ''
 
-                divWeather.innerHTML = jsonHtml
-                this.container.appendChild(divWeather)
+                this.divWeather.innerHTML = jsonHtml
             })
             .catch(error => { console.log(error) })
     }
