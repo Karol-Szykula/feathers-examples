@@ -16,7 +16,17 @@ const services = require('./services');
 const appHooks = require('./app.hooks');
 const channels = require('./channels');
 
+const auth = require('@feathersjs/authentication');
+const local = require('@feathersjs/authentication-local');
+const jwt = require('@feathersjs/authentication-jwt');
+const memory = require('feathers-memory');
+
 const app = express(feathers());
+
+app.configure(auth({ secret: 'supersecret' }))
+    .configure(local())
+    .configure(jwt())
+    .use('/users', memory())
 
 // Load app configuration
 app.configure(configuration());
@@ -29,6 +39,51 @@ app.use(express.urlencoded({ extended: true }));
 app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
 app.use('/', express.static(app.get('public')));
+
+
+
+app.use('/api', async (req, res, next) => {
+
+    await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${req.query['city']},${req.query['country']}&APPID=ec70d779550287b5004bc56e1f4500bc&units=metric`)
+        .then(response => { return response.json() })
+        .then((json) => { return res.send(json) })
+        .catch(error => { console.log(error) })
+
+})
+
+
+
+app.service('users').hooks({
+    // Make sure `password` never gets sent to the client
+    after: local.hooks.protect('password')
+});
+
+app.service('authentication').hooks({
+    before: {
+        create: [
+            // You can chain multiple strategies
+            auth.hooks.authenticate(['jwt', 'local'])
+        ],
+        remove: [
+            auth.hooks.authenticate('jwt')
+        ]
+    }
+});
+
+// Add a hook to the user service that automatically replaces
+// the password with a hash of the password, before saving it.
+app.service('users').hooks({
+    before: {
+        find: [
+            auth.hooks.authenticate('jwt')
+        ],
+        create: [
+            local.hooks.hashPassword({ passwordField: 'password' })
+        ]
+    }
+});
+
+
 
 // Set up Plugins and providers
 app.configure(express.rest());
