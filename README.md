@@ -1,6 +1,6 @@
 # auth-feathers-rest
 
-> learning
+> 
 
 ## About
 
