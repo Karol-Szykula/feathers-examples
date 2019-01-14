@@ -1,4 +1,6 @@
-FROM node:10
+FROM arm32v7/node:11.6.0-stretch
+
+COPY qemu/qemu-arm-static /usr/bin/qemu-arm-static
 
 # Create app directory
 WORKDIR /usr/src/app
