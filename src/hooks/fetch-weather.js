@@ -14,8 +14,9 @@ module.exports = function (options = {}) {
       .then((json) => {
         context.result = json
 
+        // console.log(context.data)
 
-        // console.log(context.method)
+        console.log(context.method)
         // console.log(context.query)
       })
       .catch(error => { console.log(error) })
