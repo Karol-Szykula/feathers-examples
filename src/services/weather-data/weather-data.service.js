@@ -16,7 +16,7 @@ module.exports = function (app) {
   app.use('/data/weather', createService(options));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('data/weather');
+  const service = app.service('/data/weather');
 
   service.hooks(hooks);
 };
